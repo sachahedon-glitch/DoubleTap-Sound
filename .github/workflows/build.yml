@@ -1,0 +1,21 @@
+name: Build APK
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Build
+        run: |
+          export ANDROID_HOME=${ANDROID_HOME:-$ANDROID_SDK_ROOT}
+          chmod +x build.sh && ./build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DoubleTapSound-apk
+          path: DoubleTapSound.apk
